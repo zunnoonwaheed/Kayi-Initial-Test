@@ -1,0 +1,201 @@
+<div class="spotify-page-container">
+<section class="hero-banner">
+  <div class="hero-background">
+    <div class="hero-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div class="hero-waves">
+      <div class="wave wave1"></div>
+      <div class="wave wave2"></div>
+      <div class="wave wave3"></div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">🎵 Premium Music Discovery</div>
+      <h1 class="hero-title">{{ page.title | default: 'Music Discovery' }}</h1>
+      <p class="hero-subtitle">The Best Website for Spotify Music Discovery</p>
+      <div class="hero-description">
+        {% if page.content != blank %}
+          <div class="rte">{{ page.content }}</div>
+        {% else %}
+          <p>Discover trending songs, popular artists, and new albums from around the world. Stream previews instantly and explore your next favorite track.</p>
+        {% endif %}
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">10M+</span>
+          <span class="stat-label">Songs</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">500K+</span>
+          <span class="stat-label">Artists</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">50K+</span>
+          <span class="stat-label">Albums</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="music-player-mockup">
+        <div class="player-header">
+          <div class="player-controls-mock">
+            <div class="control-btn"></div>
+            <div class="control-btn"></div>
+            <div class="control-btn"></div>
+          </div>
+        </div>
+        <div class="player-content">
+          <div class="album-art-mock">
+            <div class="vinyl-record">
+              <div class="vinyl-center">♪</div>
+            </div>
+          </div>
+          <div class="track-info-mock">
+            <div class="track-title-mock"></div>
+            <div class="track-artist-mock"></div>
+          </div>
+          <div class="waveform-mock">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="floating-music-notes">
+        <span class="note">♪</span>
+        <span class="note">♫</span>
+        <span class="note">♪</span>
+        <span class="note">♬</span>
+        <span class="note">♫</span>
+        <span class="note">♩</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-gradient"></div>
+</section>
+
+  <div class="spotify-app">
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search for songs, artists, albums..." class="search-input">
+        <button id="searchBtn" class="search-btn">🔍</button>
+        <button id="clearBtn" class="clear-btn" style="display: none;">✕</button>
+      </div>
+      <div class="search-filters">
+        <button class="filter-btn active" data-type="track">Songs</button>
+        <button class="filter-btn" data-type="artist">Artists</button>
+        <button class="filter-btn" data-type="album">Albums</button>
+        <button class="filter-btn" data-type="playlist">Playlists</button>
+      </div>
+    </div>
+
+    <div id="loadingState" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading music...</p>
+    </div>
+
+    <div id="errorState" class="error-state" style="display: none;">
+      <div class="error-content">
+        <h3>Something went wrong</h3>
+        <p>Unable to load music content. Please try again.</p>
+        <button id="retryBtn" class="retry-btn">Try Again</button>
+      </div>
+    </div>
+
+    <div id="mainContent" class="main-content" style="display: none;">
+      <section class="music-section">
+        <div class="section-header">
+          <h2 class="section-title">🎤 Popular Artists</h2>
+          <div class="section-line"></div>
+        </div>
+        <div id="featuredArtists" class="music-grid artists-grid"></div>
+      </section>
+
+      <section class="music-section">
+        <div class="section-header">
+          <h2 class="section-title">💿 New Albums</h2>
+          <div class="section-line"></div>
+        </div>
+        <div id="featuredAlbums" class="music-grid albums-grid"></div>
+      </section>
+
+      <section id="searchResults" class="music-section" style="display: none;">
+        <div class="section-header">
+          <h2 id="searchTitle" class="section-title">Search Results</h2>
+          <div class="section-line"></div>
+        </div>
+        <div id="searchContent" class="music-grid"></div>
+      </section>
+    </div>
+
+    <div id="spotifyModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>🎵 Open in Spotify</h3>
+          <button id="closeModal" class="close-btn">✕</button>
+        </div>
+        <div class="modal-body">
+          <p>Would you like to open this track in Spotify?</p>
+          <div class="modal-track-info">
+            <div>
+              <div id="modalTrackTitle" class="modal-track-title"></div>
+              <div id="modalTrackArtist" class="modal-track-artist"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="openInSpotify" class="spotify-open-btn">Open in Spotify</button>
+          <button id="cancelModal" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+<div id="songActionModal" class="modal" style="display: none;">
+  <div class="modal-content song-action-modal">
+    <div class="modal-header">
+      <h3>🎵 Choose Action</h3>
+      <button id="closeSongModal" class="close-btn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="song-action-info">
+        <div class="action-track-details">
+          <div id="actionTrackTitle" class="action-track-title"></div>
+          <div id="actionTrackArtist" class="action-track-artist"></div>
+        </div>
+      </div>
+      <div class="action-buttons">
+        <button id="playPreviewBtn" class="action-btn preview-btn">
+          <span class="btn-icon">▶️</span>
+          <div class="btn-content">
+            <span class="btn-title">Play Preview</span>
+            <span class="btn-subtitle">30-second preview</span>
+          </div>
+        </button>
+        <button id="openSpotifyBtn" class="action-btn spotify-btn">
+          <span class="btn-icon">🎵</span>
+          <div class="btn-content">
+            <span class="btn-title">Open in Spotify</span>
+            <span class="btn-subtitle">Full track</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+{{ 'music-discovery.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'music-discovery.js' | asset_url }}" defer></script>
